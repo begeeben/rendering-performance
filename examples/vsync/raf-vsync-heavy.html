@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <div id="console" style="width: 100px; height: 100px;"></div>
+    <script type="text/javascript">
+        const div = document.querySelector('#console');
+        let colorToggle = false;
+
+        function loop() {
+            div.style.backgroundColor = colorToggle ? 'rgb(253, 129, 130)' : 'rgb(133, 255, 254)';
+            colorToggle = !colorToggle;
+            let finishTime = Date.now() + 10;
+            while (Date.now() < finishTime) {}
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+    </script>
+</body>
+</html>

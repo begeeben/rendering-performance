@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        div.settings {
+            background-color: white;
+            position: fixed;
+            padding: 20px;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+        input {
+            width: 1000px;
+        }
+        input, button {
+            vertical-align: middle;
+        }
+        div.item {
+            position: absolute;
+            width: 80%;
+            height: 150px;
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings">
+        <input type="range" name="frameSkip" id="frameSkip" min="0" max="20" step="1" value="0">
+        <button>Jank</button>
+    </div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <script type="text/javascript">
+        const distance = 170;
+        const height = 150;
+        const margin = 20;
+        const interval = 1000;
+        const positions = [];
+        const items = document.querySelectorAll('.item');
+        items.forEach((item, index) => {
+            let top = index * (height + margin);
+            item.style.top = top + 'px';
+            positions.push(top);
+        });
+        const lastItemTop = (items.length - 1) * (margin + height) + margin;
+        let lastTimestamp;
+
+        let originalValue = 10;
+        let frameSkip = 10;
+        let jank = false;
+        let frameCount = 1;
+        function shouldSkipFrame() {
+            if (frameSkip > 0) {
+                if (frameCount > frameSkip) {
+                    frameCount = 1;
+                    return true;
+                } else {
+                    frameCount += 1;
+                    if (frameCount > 10) {
+                        frameCount = 1
+                    }
+                    return false;
+                }
+            } else if (frameSkip < 0) {
+                if (frameCount > -frameSkip) {
+                    frameCount = 1;
+                    return false;
+                } else {
+                    frameCount += 1;
+                    return true;
+                }
+            }
+        }
+
+        function scroll(elapsed) {
+            if (!shouldSkipFrame()) {
+                let delta = lastTimestamp ? elapsed - lastTimestamp : 0;
+                lastTimestamp = elapsed;
+                let offset = distance * delta / interval;
+                items.forEach((item, index) => {
+                    let top;
+                    if (positions[index] < - (margin + height)) {
+                        top = lastItemTop + positions[index] - offset;
+                    } else {
+                        top = positions[index] - offset;
+                    }
+                    item.style.top = top + 'px';
+                    positions[index] = top;
+                });
+                if (jank) {
+                    jank = false;
+                    frameSkip = originalValue;
+                }
+            }
+
+            requestAnimationFrame(scroll);
+        }
+        scroll();
+
+        const slider = document.querySelector('input');
+        slider.addEventListener('input', (e) => {
+            frameSkip = 10 - e.target.value;
+            if (frameSkip === 0) {
+                frameSkip = -1;
+            }
+        });
+
+        const button = document.querySelector('button');
+        button.addEventListener('click', () => {
+            jank = true;
+            originalValue = frameSkip;
+            frameSkip = -20;
+            frameCount = 1;
+        });
+    </script>
+</body>
+</html>

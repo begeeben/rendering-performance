@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <div id="console"></div>
+    <script src="log.js"></script>
+    <script type="text/javascript">
+        log('start');
+        let lastTimestamp = Date.now();
+
+        function task() {
+            doSomethingSlowly();
+            const timestamp = Date.now();
+            log(timestamp - lastTimestamp);
+            lastTimestamp = timestamp;
+        }
+
+        function doSomethingSlowly() {
+            const startTime = Date.now();
+            if (Math.random() > 0.66) while (Date.now() - startTime < 1500) {}
+        }
+
+        function loop(fn, interval) {
+            let id, expected = Date.now() + interval;
+            function next() {
+                fn();
+                let delta = Date.now() - expected;
+                expected += interval;
+                while (delta > interval) { delta -= interval; expected += interval; }
+                id = setTimeout(next, interval - delta);
+            }
+            id = setTimeout(next, interval);
+            return { getId: () => id };
+        }
+
+        let timer = loop(task, 1000);
+
+        setTimeout(() => {
+            clearTimeout(timer.getId());
+        }, 30000)
+    </script>
+</body>
+</html>

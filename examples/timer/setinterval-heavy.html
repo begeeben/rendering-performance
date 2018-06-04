@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <div id="console"></div>
+    <script src="log.js"></script>
+    <script type="text/javascript">
+        log('start');
+        let lastTimestamp = Date.now();
+
+        setInterval(() => {
+            doSomethingSlowly();
+            let timestamp = Date.now();
+            log(timestamp - lastTimestamp);
+            lastTimestamp = timestamp;
+        }, 1000);
+
+        function doSomethingSlowly() {
+            const startTime = Date.now();
+            if (Math.random() > 0.66) while (Date.now() - startTime < 1500) {}
+        }
+
+        // let lastTime = (new Date()).getMilliseconds();
+        // function clock() {
+        //     const now = (new Date()).getMilliseconds();
+        //     if (now < lastTime) {
+        //         log('clock');
+        //     }
+        //     lastTime = now;
+        //     requestAnimationFrame(clock);
+        // }
+        // requestAnimationFrame(clock);
+
+    </script>
+</body>
+</html>
