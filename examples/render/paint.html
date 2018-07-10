@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div style="width: 200px; height: 200px; background-color: blue;"></div>
+  <script type="text/javascript">
+    window.onload = function () {
+      setTimeout(function () {
+        let divString = '<div style="width: 100px; height: 100px; background-color: yellow;"></div>';
+        document.querySelector('div').innerHTML = divString;
+      }, 2000);
+      setTimeout(function () {
+        let div = document.createElement('div');
+        div.style.width = '100px';
+        div.style.height = '100px';
+        div.style.backgroundColor = 'red';
+        document.querySelector('div').appendChild(div);
+      }, 4000);
+    };
+  </script>
+</body>
+</html>

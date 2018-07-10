@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        body {
+          margin: 0;
+          background-color: black;
+          overflow: hidden;
+        }
+
+        div {
+          box-sizing: border-box;
+        }
+
+        a,
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+          color: inherit;
+          text-decoration: inherit;
+          font-weight: inherit;
+        }
+
+        .no-transition {
+          transition: none !important;
+        }
+
+        .background {
+          position: fixed;
+          width: 100vw;
+          height: 100vh;
+          background-position: right top;
+          background-size: 50%;
+          background-repeat: no-repeat;
+        }
+
+        .background::after {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; bottom: 0; right: 0;
+          background: linear-gradient(to right, black 50%, transparent 80%, black 150%);
+        }
+
+        .main {
+          position: fixed;
+          padding: 20px;
+          top: 60vh;
+          width: 100vw;
+          height: 40vh;
+          /* overflow: hidden; */
+        }
+
+        .close {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          width: 32px;
+          height: 32px;
+          opacity: 0.4;
+        }
+        .close:hover {
+          opacity: 1;
+        }
+        .close:before, .close:after {
+          position: absolute;
+          left: 15px;
+          content: ' ';
+          height: 33px;
+          width: 2px;
+          background-color: #333;
+        }
+        .close:before {
+          transform: rotate(45deg);
+        }
+        .close:after {
+          transform: rotate(-45deg);
+        }
+
+        .list {
+          position: absolute;
+          /* this creates a composite layer */
+          /* overflow-y: scroll; */
+          /* overflow-y: hidden; */
+          white-space: nowrap;
+          width: 100%;
+          height: 188px;
+          /* transition: top 0.2s linear; */
+          transition: top 0.2s linear, opacity 0.2s linear;
+        }
+
+        .item {
+          position: absolute;
+          display: inline-block;
+          top: 0;
+          /* margin: 10px; */
+          width: 248px;
+          height: 188px;
+          background-color: black;
+          border: solid white 4px;
+          box-shadow: 0 0 0 0 grey;
+          transition: left 0.2s linear, top 0.2s linear, box-shadow 0.4s linear;
+        }
+
+        .item:focus {
+          box-shadow: 12px 12px 0 0 grey;
+          top: -10px;
+          outline: none;
+        }
+
+        .item-link {
+          position: relative;
+          display: block;
+          width: 240px;
+          height: 180px;
+        }
+
+        .item-link::after {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; bottom: 0; right: 0;
+          background: radial-gradient(circle, transparent 70%, black 150%);
+        }
+
+        .item-image {
+          width: 240px;
+          height: 180px;
+          object-fit: cover;
+        }
+
+        .item-title {
+          background-color: rgba(0, 0, 0, 0.8);
+          text-align: center;
+          line-height: 32px;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 32px;
+          margin: 0;
+          padding: 0;
+          color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div id="main" class="main"></div>
+    <script src="api.js"></script>
+    <script src="initial.js"></script>
+</body>
+</html>
